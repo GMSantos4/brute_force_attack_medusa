@@ -14,7 +14,7 @@ O objetivo deste trabalho é percorrer o fluxo de ações a serem empregadas par
 
 ## Protocolo de Autenticação
 
-Protocolo de autenticação é o processo que as aplicações *web* utilizam para confirmar que certo usuário poderá acessar ao conteúdo daquela aplicação *web*. Do ponto de vista do usuário, estes processos de autenticação são mais visíveis quando ele está tentando acessar um serviço por meio de suas credenciais (usuário e senha).
+Protocolo de autenticação é o processo que as aplicações *web* utilizam para confirmar que certo usuário poderá acessar ao conteúdo daquela aplicação *web*. Do ponto de vista do usuário, estes processos de autenticação são mais claros quando ele está tentando acessar um serviço por meio de suas credenciais (usuário e senha).
 
 ### Autenticação *Stateless*
 
@@ -54,9 +54,25 @@ O resultado disto é uma chave criptografada que pode ser facilmente passada do 
 
 ### Autenticação *Statefull*
 
+Na autenticação *stateful* as informações de sessão de um usuário após o *login* devem ser armazenadas. Ou seja, o servidor deve possuir um histórico das requisições realizadas pelo usuário durante a sessão. Este tipo de autenticação pode ser utilizada, por exemplo em serviços de e-mail ou serviços bancários.
 
+Um exemplo de autenticação *stateful* é o [*Opaque Token*](https://docs.secureauth.com/ciam/en/opaque-token--concept,-purpose,-way-it-works.html#:~:text=Opaque%20Token%20Is-,The%20opaque%20token%20is%20a%20random%20unique%20string%20of%20characters%20issued,resource%20server%20calls%20the%20authorization%20server%20and%20requests%20the%20token%20introspection.,-With%20opaque%20tokens). Ele é *stateful*, pois, diferentemente do JWT, ele não carrega nenhuma informação no *token* em si.
+
+Como vimos anteriormente, o JWT possui três informações criptografadas: *header*, *payload* e *signature*. Estas informações são decriptografadas no servidor de autorização que não armazena nenhuma informação da sessão do usuário.
+
+Já o *Opaque Token* funciona como uma chave. Quanto o usuário faz o *login* no sistema, ele recebe o *Opaque Token*, que é uma *string* de caracteres aleatórios e únicos. Então, de posse desta chave (que não possui nenhuma informação das credenciais ou do usuário), o usuário pode realizar requisições aos outros serviços do sistema. 
+
+Quando um serviço recebe uma requisição junto com o *token* ele não consegue permitir acesso apenas com o *token*, pois este não possui nenhuma identificação de quem é o usuário. Desta forma, o serviço faz uma consulta ao servidor de autorização e realiza uma *token introspection*. 
+
+A *token introspection* nada mais é que uma requisição ao servidor de autorização solicitando informações como a validade do *token*, o nome do usuário, quais as permissões deste usuário, data de expiração, entre outros.
+
+Observe que, neste caso, as informações solicitadas na *token introspection* estão armazenadas no servidor de autorização. Esta é a definição da autenticação *stateful*.
+
+![alt text](imagens/autent_less_full.png)
 
 ### Autenticação Federada
+
+O processo de autenticação federada é quando o serviço de autenticação de uma aplicação web é terceirizada para um provedor de identidades confiável. Um exemplo mais claro deste tipo de autenticação é o acesso a algumas aplicações por meio da autenticação da conta do *Google*. Neste caso, o *Google* é o provedor de identidades confiável.
 
 # Ataque de Força Bruta
 
