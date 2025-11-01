@@ -76,7 +76,23 @@ O processo de autenticação federada é quando o serviço de autenticação de 
 
 # Ataque de Força Bruta
 
+Ataques de força bruta são ataque que não exploram diretamente uma vulnerabilidade do sistema, mas sim vazamento de senhas ou a utilização de senhas fracas pelos usuários ou desenvolvedores do sistema. A seguir, apresento alguns destes ataques:
+* Ataque de força bruta: parte da utilização de um conjunto de credenciais vazadas para tentar acesso a sistemas. Uma forma de impedir este tipo de ataque é limitar o número de tentativas de login do usuário;
+* Ataque de força bruta pura (com permutação): este ataque não parte de uma lista de credenciais (*wordlist*), mas sim da combinações de caracteres. Este ataque se torna ineficaz se as senhas forem muito grandes ou complexas; e
+* Ataque híbrido (managing rules): parte de uma *wordlist*, mas faz alterações que os humanos costumam fazer, exemplo, a senha "primeiro" se tornaria "pr1m31r0".
+
+Outros ataques mais sofisticados são o *password spraying* e o *credential stuffing*:
+* *Password Spraying*: neste ataque, em vez de se tentar várias senhas para um mesmo usuário, tenta-se a mesma senha para diversos usuários. Imagine que o atacante teve acesso à lista de e-mails de uma empresa. Ele pode, por exemplo, tentar *logar* no sistema com todos os e-mails utilizando a senha padrão "123456". Este ataque é mais sofisticados pois não alarma sistemas que são programados para bloquear o acesso após certo número de erro da senha; e
+* Credential Stuffing: neste ataque, o atacante utiliza um conjunto de credenciais vazadas na internet para tentar acessar outros sistemas.Imagine que as credenciais do LinkedIn de um usuário vazou. A estratégia é usar estas credenciais para tentar acesso em outros sistemas, como Facebook, Instagra,, por exemplo.
+
 ## Configuração do Ambiente
+
+Quanto ao processo de instalação do *Oracle VirtualBox* e das imagens iso do Kali e do Metasploitable2, isto não será discutido aqui. 
+
+A única informação importante para a realização dos procedimentos a seguir é que ambas as máquinas deverão ser configuradas para estarem na rede local (*host-only*). Isto é configurado da seguinte forma:
+1. Clique com o botão direito nas máquinas (ainda no *Oracle VirtualBox*) e acesse as configurações de cada máquina;
+2. Acesse o menu "Rede"; e
+3. Defina "Ligado a" como "Placa de rede exclusiva de hospedeiro (host-only)".
 
 ## Protocolos
 
