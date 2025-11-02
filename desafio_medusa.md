@@ -96,22 +96,45 @@ A única informação importante para a realização dos procedimentos a seguir 
 
 ## Primeiros Contatos com Metasploitable2
 
-O primeiro objetivo será a identificação do IP da máquina alvo. De acordo com a [documentação](https://nmap.org/book/man-target-specification.html#:~:text=Sometimes%20you%20wish%20to%20scan%20a%20whole%20network%20of%20adjacent%20hosts.%20For%20this%2C%20Nmap%20supports%20CIDR%2Dstyle%20addressing.%20You%20can%20append%20/%3Cnumbits%3E%20to%20an%20IP%20address%20or%20hostname%20and%20Nmap%20will%20scan%20every%20IP%20address%20for%20which%20the%20first%20%3Cnumbits%3E%20are%20the%20same%20as%20for%20the%20reference%20IP%20or%20hostname%20given.) do nmap, *sometimes you wish to scan a whole network of adjacent hosts. For this, Nmap supports CIDR-style addressing. You can append /\<numbits\> to an IP address or hostname and Nmap will scan every IP address for which the first \<numbits\> are the same as for the reference IP or hostname given.*
+O primeiro objetivo será a identificação do IP da máquina alvo. De acordo com a [documentação](https://nmap.org/book/man-target-specification.html#:~:text=Sometimes%20you%20wish%20to%20scan%20a%20whole%20network%20of%20adjacent%20hosts.%20For%20this%2C%20Nmap%20supports%20CIDR%2Dstyle%20addressing.%20You%20can%20append%20/%3Cnumbits%3E%20to%20an%20IP%20address%20or%20hostname%20and%20Nmap%20will%20scan%20every%20IP%20address%20for%20which%20the%20first%20%3Cnumbits%3E%20are%20the%20same%20as%20for%20the%20reference%20IP%20or%20hostname%20given.) do nmap, "*sometimes you wish to scan a whole network of adjacent hosts. For this, Nmap supports CIDR-style addressing. You can append /\<numbits\> to an IP address or hostname and Nmap will scan every IP address for which the first \<numbits\> are the same as for the reference IP or hostname given*".
 
 A intenção, então, será descobrir a máscara de rede e escanear todos os IPs desta rede usando a notação *CIDR-style addressing*. Apenas para fins de exemplo, suponha que o endereço de rede seja "192.168.1.0" e a mascará de rede seja "255.255.255.0". A notação CIDR, "192.168.1.0/24" quer dizer que os primeiros 24 bits do endereço, três octetos iniciais, são fixos.
 
-Utilizando esta notação junto com o nmap torna possível escanear a rede em busca do nosso alvo. Observe na figura abaixo que a nossa máscara de rede (host-only) é 192.168.56.0 (*eth0*):
+Utilizando esta notação junto com o nmap torna possível escanear a rede em busca do nosso alvo. Observe na figura abaixo que a nossa máscara de rede é 192.168.56.0 (*eth0*), pois os primeiros 24 bits (3 octetos) são fixos (192.168.56.103/24):
 
 ![alt text](imagens/net-mask.png)
 
-Agora, basta varre a rede utilizando o seguinte comando:
+Agora, basta varrer a rede utilizando o seguinte comando:
 ```bash
 nmap -sn 192.168.56.0/24
 ```
 
+Ressalta-se que, de acordo com a documentação, a *flag -sn* configura o nmap para realizar apenas uma varredura dos *hosts* da rede, desabilitando o escaneamento das portas.
+
 ![alt text](imagens/nmap-net-scan.png)
 
-## Protocolos
+Quatro IPs foram encontrados no comando executado acima: **192.168.56.1**, **192.168.56.100**, **192.168.56.102**, **192.168.56.103**. O primeiro IP de uma rede é sempre reservado para a identificação desta rede e o IP de final 103 é o IP da minha máquina Kali. Logo, os IPs final 100 e 102 serão analisados. 
+
+Para análise de ambos IPs será utilizado o comando a seguir. A *flag -sV* configurará o nmap para escanear todas as portas do IP alvo, trará informações dos serviços disponíveis nestas portas e infomações do sistema operacional rodando no IP alvo:
+
+```bash
+nmap -sV 192.168.56.100
+nmap -sV 192.168.56.102
+```
+
+A seguir, o resultado obtido no IP **192.168.56.100**:
+
+![alt text](imagens/nmap-ip100.png)
+
+A seguir, o resultado obtido no IP **192.168.56.102**:
+
+![alt text](imagens/nmap-ip102.png)
+
+Analisando as duas saídas, conclui-se que o IP da máquina alvo, Metasploitable2, é **192.168.56.102**. Observe o 
+
+## Protocolo FTP
+
+Tendo estabelecido
 
 # Conclusão
 
