@@ -94,6 +94,23 @@ A única informação importante para a realização dos procedimentos a seguir 
 2. Acesse o menu "Rede"; e
 3. Defina "Ligado a" como "Placa de rede exclusiva de hospedeiro (host-only)".
 
+## Primeiros Contatos com Metasploitable2
+
+O primeiro objetivo será a identificação do IP da máquina alvo. De acordo com a [documentação](https://nmap.org/book/man-target-specification.html#:~:text=Sometimes%20you%20wish%20to%20scan%20a%20whole%20network%20of%20adjacent%20hosts.%20For%20this%2C%20Nmap%20supports%20CIDR%2Dstyle%20addressing.%20You%20can%20append%20/%3Cnumbits%3E%20to%20an%20IP%20address%20or%20hostname%20and%20Nmap%20will%20scan%20every%20IP%20address%20for%20which%20the%20first%20%3Cnumbits%3E%20are%20the%20same%20as%20for%20the%20reference%20IP%20or%20hostname%20given.) do nmap, *sometimes you wish to scan a whole network of adjacent hosts. For this, Nmap supports CIDR-style addressing. You can append /\<numbits\> to an IP address or hostname and Nmap will scan every IP address for which the first \<numbits\> are the same as for the reference IP or hostname given.*
+
+A intenção, então, será descobrir a máscara de rede e escanear todos os IPs desta rede usando a notação *CIDR-style addressing*. Apenas para fins de exemplo, suponha que o endereço de rede seja "192.168.1.0" e a mascará de rede seja "255.255.255.0". A notação CIDR, "192.168.1.0/24" quer dizer que os primeiros 24 bits do endereço, três octetos iniciais, são fixos.
+
+Utilizando esta notação junto com o nmap torna possível escanear a rede em busca do nosso alvo. Observe na figura abaixo que a nossa máscara de rede (host-only) é 192.168.56.0 (*eth0*):
+
+![alt text](imagens/net-mask.png)
+
+Agora, basta varre a rede utilizando o seguinte comando:
+```bash
+nmap -sn 192.168.56.0/24
+```
+
+![alt text](imagens/nmap-net-scan.png)
+
 ## Protocolos
 
 # Conclusão
