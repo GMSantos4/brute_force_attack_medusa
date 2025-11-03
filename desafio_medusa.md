@@ -138,6 +138,35 @@ Analisando as duas saídas, concluiu-se que o IP da máquina alvo, Metasploitabl
 
 Após o escaneamento e descoberta da máquina alvo, observe que o serviço FTP está disponível e aberto na porta 21. Uma das etapas do desafio será um ataque de força bruta em FTP. Antes da realização do ataque, porém, será feita uma breve descrição deste serviço.
 
+De acordo com a [documentação](https://www.commandlinux.com/man-page/man1/ftp.1.html#:~:text=Ftp%20is%20the%20user%20interface%20to%20the%20Internet%20standard%20File%20Transfer%20Protocol.%20The%20program%20allows%20a%20user%20to%20transfer%20files%20to%20and%20from%20a%20remote%20network%20site.), o protocolo FTP serve para transferir arquivos entre um cliente e um servidor via internet.
+
+## *Wordlists*
+
+Para os ataque a serem efetuados, será necessário a utilização de um lista de credenciais comuns. O vazamento de credenciais é uma ocorrência muito comum e estas credenciais alimentam o banco de dados a ser utilizado pos ferramentas como o Medusa.
+
+Um dos casos mais importantes de vazamentos de credenciais foi a lista de palavras **RockYou.txt*. Este vazamento ocorreu em 2009 quando a empresa de publicidade e aplicativo social, *RockYou*, sofreu um ataque cibernético que levou à exposição de mais de 32 milhões de senhas de usuários.
+
+Para este ataque, serão utilizadas duas listas bem simples de usuários e senhas: *user.txt* e *pass.txt*. Estas listas serão criadas com os comandos a seguir:
+
+```bash
+echo -e "users\nmsfadmin\nadmin\nroot" > users.txt
+echo -e "123456\npassword\nqwerty\nmsfadmin" > pass.txt.
+```
+
+Para fins de informação, havendo a necessidade de *wordlists* mais completas, o Kali possui salvo no caminho abaixo diversas *wordlists* (inclusive a *rockyou.txt*) que podem ser usadas para ataques:
+
+```bash
+/usr/share/wordlists/
+```
+
+## Ataque de Força Bruta no FTP com Medusa
+
+Dito isto, será simulado um ataque de força bruta no serviço FTP (disponível na porta 21) da máquina alvo:
+
+```bash
+medusa -h 168.168.56.102 -U users.txt -P pass.txt -M ftp -t 6
+```
+
 # Conclusão
 
 # Referências
