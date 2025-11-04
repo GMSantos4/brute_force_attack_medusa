@@ -167,6 +167,40 @@ Dito isto, será simulado um ataque de força bruta no serviço FTP (disponível
 medusa -h 168.168.56.102 -U users.txt -P pass.txt -M ftp -t 6
 ```
 
+A seguir, apresenta-se o significado de cada uma das *flags* que acompanham o comando acima de acordo com a documentação do Medusa:
+* *-h*: *Target hostname or IP address*;
+* *-U*: esta *flag* configura o Medusa para *Reads target usernames from the file specified rather than from the command line. The file should contain a list separated by newlines*;
+* *-P*: esta *flag* faz o mesmo que a anterior, porém relacionado ao arquivo com os *passwords*;
+* *-M*: *Name of the module to execute*, neste caso, o protocolo FTP;
+* *-t*: *Total number of logins to be tested concurrently*, ou seja, a quantidade total de *logins* simultâneos que serão realizados. Dependendo da quantidade de requisições simultâneas forem feitas, este pode se tornar um Ataque de Negação de Serviço, *Deniel of Service* (DoS).
+
+O resultado do comando acima foi um par (usuário e senha) de credenciais obtidas: **msfadmin** (usuário) e **msfadmin** (senha):
+
+![alt text](imagens/ftp-final.png)
+
+Apos serem obtidas, as credenciais foram usadas para acessar o serviço e, já dentro do sistema, tentou-se baixar os arquivos de configuração **passwd** e **shadow**. Estes arquivos ficam armazenados na pasta **etc** da raiz do linux e possuem informações de usuários e *hash* de senhas. Os comando a seguir foram utilizados:
+
+```bash
+binary
+get /etc/passwd
+get /etc/shadow
+```
+
+O arquivo **passwd** foi baixado normalmente, mas o **shadow**, não. O insucesso no *download* do *shadow* possivelmente é devido a restrições de acesso do usuário utilizado.
+
+Como nova estratégia para tentar escalar o acesso, utilizarei o arquivo **passwd** para criar uma nova lista de usuários e usarei uma lista de senhas mais robusta para ver se alcanço algum resultado novo. A seguir, o comando utilizado para isolar apenas os nomes de usuário do arquivo *passwd*:
+
+```bash
+cut -d ':' -f 1 passwd > users_new.txt
+```
+
+Em linhas gerais, o comando acima define o delimitador que irá separar a linha ("-d :"), define o termo que será saldo ("-f 1"), define o arquivo a ser analisado ("*passwd*") e salva o resultado em um arquivo novo (*users_new.txt*). A seguir, apresenta-se a nova tentativa de obtenção de credenciais, mas desta vez, usando os *usernames* obtidos na primeira exploração e usando as senhas do famoso arquivo *rockyou.txt*:
+
+```bash
+medusa -h 168.168.56.102 -U users_new.txt -P /usr/share/wordlists/rockyou.txt -M ftp -t 6
+```
+
+
 # Conclusão
 
 # Referências
