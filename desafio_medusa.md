@@ -200,6 +200,9 @@ Em linhas gerais, o comando acima define o delimitador que irá separar a linha 
 medusa -h 168.168.56.102 -U users_new.txt -P /usr/share/wordlists/rockyou.txt -M ftp -t 6
 ```
 
+Devido a sucessivas falhas da máquina virtual Kali e à demora no processamento, não foram obtidas respostas no código acima.
+
+## Exploração do Formulário *Web* (DVWA)
 
 # Conclusão
 
