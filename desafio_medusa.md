@@ -204,6 +204,30 @@ Devido a sucessivas falhas da máquina virtual Kali e à demora no processamento
 
 ## Exploração do Formulário *Web* (DVWA)
 
+Para a exploração do DVWA, antes de tudo é importante saber como o formulário funciona: quais dados são enviados do *frontend* para o *backend*, qual a mensagem surge quando o *login* falha, entre outros. Para isso, é essencial usar ferramenta de desenvolvedor do navegador apertando a tecla F12 ou simplesmente verificar o código fonte da página HTML.
+
+Ao analisar o código fonte da página, observe que o usuário é alocado na variável *username*, a senha, na variável *password* e o botão de *submit*, na variável *Login*:
+
+![alt text](imagens/form-dvwa.png)
+
+Observe também que a mensagem retornada pelo formulário em caso de falha é *Login failed*:
+
+![alt text](imagens/failed-dvwa.png)
+
+Sendo "honesto", não seria nem necessário realizar o ataque usando o Medusa, tendo em vista que no código fonte da página já há uma dica sobre as credenciais de acesso (*admin* e *password*):
+
+![alt text](imagens/dvwa-hint.png)
+
+O comando utilizado para a realização do ataque com o Medusa foi o seguinte:
+
+```bash
+medusa -h 192.168.56.102 -U users.txt -P pass.txt -M http -m PAGE:'/dvwa/login.php' -m FORM:'username=^USER^&password=^PASS^&Login=Login' -m 'FAIL=Login failed' -t 6 
+```
+
+Todos as *flags* acima já foram explicadas, exceto a *flag -m*. De acordo com a documentação do Medusa, esta *flag* define parâmetros diversos a serem definidos no ataque. Ela pode ser inserida múltiplas vezes com parâmetros diferentes e todos eles serão passados para o programa para a realização do ataque.
+
+## *Password Spraying* em SMB com Enumeração de Usuários
+
 # Conclusão
 
 # Referências
