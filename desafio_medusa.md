@@ -229,5 +229,3 @@ Todos as *flags* acima já foram explicadas, exceto a *flag -m*. De acordo com a
 ## *Password Spraying* em SMB com Enumeração de Usuários
 
 # Conclusão
-
-# Referências
