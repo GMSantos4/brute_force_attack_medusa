@@ -228,4 +228,39 @@ Todos as *flags* acima já foram explicadas, exceto a *flag -m*. De acordo com a
 
 ## *Password Spraying* em SMB com Enumeração de Usuários
 
+SMB significa *Server Message Block*. Ele é um protocolo da rede Microsoft usado para compartilhar arquivos, pastas, impressoras e para realizar a autenticação de usuários e a comunicação entre máquinas windows e linux/macOS via Samba (*software open source* que faz a integração do SMB em máquinas sem o sistema operacional Windows).
+
+Pense no SMB como uma porta de entrada para compartilhar recursos em redes internas. Se esta porta estiver mal configurada ou exposta à internet, isto pode ser uma fonte de vulnerabilidades em uma rede.
+
+O ataque simulado aqui terá com pressupostos que o atacante já obteve acesso à rede interna seja por *phishing*, acesso físico ou alguma estratégia de engenharia social.
+
+O próximo passo, então, será descobrir os usuários existentes nesta rede e testar algumas senhas fracas. Deve haver uma preocupação, por parte do atacante, de não alarmar nenhum mecanismo de proteção de *login* devido aos repetidos erros de senha. Por esta razão, utilizaremos a técnica *Password Spraying*. Este é um ataque silencioso e bastante eficaz se as senhas utilizadas são fracas.
+
+Inicialmente, é importante enumerarmos todas as informações possíveis sobre o alvo, ```192.168.56.102```. Esta etapa é chamada de **enumeração**. Tendo em vista que nosso objetivo é explorar vulnerabilidades da rede interna através do protocolo SMB, usaremos a ferramenta ```enum4linux```. Como a saída desta ferramenta costuma ser grande, salvaremos a saída em um arquivo:
+
+```bash
+enum4linux -a 192.168.56.102 | tee enum4_output.txt
+```
+Onde,
+* *-a*: esta *flag* faz uma enumeração abrangente do alvo. Se o objetivo for apenas descobrir os usuário, é possível usar a *flag -U*;
+* *| tee enum4_output.txt*: grava a saída da enumeração em um arquivo tipo *txt*.
+
+A seguir, apresento a lista de usuários obtidos pelo comando acima (observe a coluna *Account*, onde encontram-se os nomes dos usuários):
+
+![alt text](imagens/user-smb.png)
+
+A partir desta informação, salvaremos a lista de usuários num arquivo de forma que cada linha contenha apenas um usuário, ```smb_user.txt```. E com o comando abaixo, criaremos um arquivo, ```senhas_spray.txt```, com algumas senhas simples que serão usadas em nosso ataque:
+
+```bash
+echo -e "password\n123456\nWelcome123\nmsfadmin" > senhas_spray.txt
+```
+
+Com estes tópicos cumpridos, podemos realizar o ataque:
+
+```bash
+medusa -h 192.168.56.102 -U smb_users.txt -P senhas_spray.txt -M smbnt -t 2 -T 50
+```
+Onde, 
+* *-t 2*
+
 # Conclusão
