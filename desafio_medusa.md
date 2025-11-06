@@ -206,7 +206,7 @@ Devido a sucessivas falhas da máquina virtual Kali e à demora no processamento
 
 ## Exploração do Formulário *Web* (DVWA)
 
-Para a exploração do DVWA, antes de tudo é importante saber como o formulário funciona: quais dados são enviados do *frontend* para o *backend*, qual a mensagem surge quando o *login* falha, entre outros. Para isso, é essencial usar ferramenta de desenvolvedor do navegador apertando a tecla F12 ou simplesmente verificar o código fonte da página HTML.
+Para a exploração do DVWA, incialmente, é essencial saber como o formulário funciona: quais dados são enviados do *frontend* para o *backend*, qual mensagem surge quando o *login* falha, entre outros. Para isso, é importante usar as ferramentas de desenvolvedor (navegador) apertando a tecla F12 ou simplesmente verificar o código fonte da página HTML.
 
 Ao analisar o código fonte da página, observe que o usuário é alocado na variável *username*, a senha, na variável *password* e o botão de *submit*, na variável *Login*:
 
@@ -234,7 +234,7 @@ SMB significa *Server Message Block*. Ele é um protocolo da rede Microsoft usad
 
 Pense no SMB como uma porta de entrada para compartilhar recursos em redes internas. Se esta porta estiver mal configurada ou exposta à internet, isto pode ser uma fonte de vulnerabilidades em uma rede.
 
-O ataque simulado aqui terá com pressupostos que o atacante já obteve acesso à rede interna seja por *phishing*, acesso físico ou alguma estratégia de engenharia social.
+O ataque simulado aqui terá como pressupostos o atacante já ter obtido acesso à rede interna, seja por *phishing*, acesso físico ou alguma estratégia de engenharia social.
 
 O próximo passo, então, será descobrir os usuários existentes nesta rede e testar algumas senhas fracas. Deve haver uma preocupação, por parte do atacante, de não alarmar nenhum mecanismo de proteção de *login* devido aos repetidos erros de senha. Por esta razão, utilizaremos a técnica *Password Spraying*. Este é um ataque silencioso e bastante eficaz se as senhas utilizadas são fracas.
 
@@ -290,4 +290,4 @@ E para realizar o *download* de algum arquivo, bastaria usar o comando *get*.
 
 # Conclusão
 
-O procedimento acima registrado buscou ser minucioso com o intuito de ser reproduzível para qualquer um que leia e de servir como um resumo pessoal. Além, é claro, de ser a entrega do primeiro desafio do Bootcamp Santander 2025 de Cibersegurança.
+Os procedimentos registrados buscaram ser minuciosos com o intuito de serem reproduzíveis para qualquer um que leia e de servir como um resumo pessoal. Além, é claro, de ser a entrega do primeiro desafio do Bootcamp Santander 2025 de Cibersegurança.
