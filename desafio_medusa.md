@@ -14,7 +14,7 @@ O objetivo deste trabalho é percorrer o fluxo de ações a serem empregadas par
 
 ## Protocolo de Autenticação
 
-Protocolo de autenticação é o processo que as aplicações *web* utilizam para confirmar que certo usuário poderá acessar ao conteúdo daquela aplicação *web*. Do ponto de vista do usuário, estes processos de autenticação são mais claros quando ele acessa um serviço por meio de suas credenciais (usuário e senha). Apesar disso, a validação do credenciamento do usuário é realizada a cada iteração deste com o sistema.
+Protocolo de autenticação é o processo que as aplicações *web* utilizam para confirmar que certo usuário poderá acessar ao conteúdo daquela aplicação. Do ponto de vista do usuário, estes processos de autenticação ocorrem quando se acessa um serviço por meio de suas credenciais (usuário e senha). Apesar disso, a validação do credenciamento do usuário é realizada a cada iteração deste com o sistema.
 
 ### Autenticação *Stateless*
 
@@ -32,7 +32,7 @@ Um exemplo de *token* utilizado é o JSON *Web Tokens*, [JWT](https://www.jwt.io
 }
 ```
 
-* *Payload*: esta parcela são as informações adicionais, as quais podem ser informações de registro, informações públicas ou informações privadas, veja o exemplo:
+* *Payload*: esta parcela são as informações adicionais, tais como informações de registro, informações públicas ou informações privadas. Veja o exemplo:
 ```
 {
     "sub":"1234567890",
@@ -54,7 +54,7 @@ O resultado das três parcelas unidas é uma chave criptografada que pode ser fa
 
 ### Autenticação *Statefull*
 
-Na autenticação *stateful* as informações de sessão de um usuário após o *login* devem ser armazenadas. Ou seja, o servidor deve possuir um histórico das requisições realizadas pelo usuário durante a sessão. Este tipo de autenticação pode ser utilizada, por exemplo em serviços de e-mail ou serviços bancários.
+Na autenticação *stateful* as informações de sessão de um usuário após o *login* devem ser armazenadas. Ou seja, o servidor deve possuir um histórico das requisições realizadas pelo usuário durante a sessão. Este tipo de autenticação pode ser utilizada, por exemplo, em serviços de e-mail ou serviços bancários.
 
 Um exemplo de autenticação *stateful* é o [*Opaque Token*](https://docs.secureauth.com/ciam/en/opaque-token--concept,-purpose,-way-it-works.html#:~:text=Opaque%20Token%20Is-,The%20opaque%20token%20is%20a%20random%20unique%20string%20of%20characters%20issued,resource%20server%20calls%20the%20authorization%20server%20and%20requests%20the%20token%20introspection.,-With%20opaque%20tokens). Ele é *stateful*, pois, diferentemente do JWT, ele não carrega nenhuma informação no *token* em si.
 
@@ -72,7 +72,7 @@ Observe que, neste caso, as informações solicitadas na *token introspection* e
 
 ### Autenticação Federada
 
-O processo de autenticação federada é quando o serviço de autenticação de uma aplicação *web* é terceirizada a um provedor de identidades confiável. Um exemplo deste tipo de autenticação é o acesso a algumas aplicações via conta do *Google*. Neste caso, o *Google* é o provedor de identidades confiável.
+O processo de autenticação federada é quando o serviço de autenticação de uma aplicação *web* é terceirizado a um provedor de identidades confiável. Um exemplo deste tipo de autenticação é o acesso a algumas aplicações via conta do *Google*. Neste caso, o *Google* é o provedor de identidades confiável.
 
 # Ataque de Força Bruta
 
@@ -94,6 +94,8 @@ A única informação importante para a realização dos procedimentos a seguir 
 2. Acesse o menu "Rede"; e
 3. Defina "Ligado a" como "Placa de rede exclusiva de hospedeiro (host-only)".
 
+Esta configuração fará com que ambas as máquinas, Kali e o Metasploitable2, estejam em um rede segregada sem acesso à internet.
+
 ## Primeiros Contatos com Metasploitable2
 
 O primeiro objetivo será a identificação do IP da máquina alvo. De acordo com a [documentação](https://nmap.org/book/man-target-specification.html#:~:text=Sometimes%20you%20wish%20to%20scan%20a%20whole%20network%20of%20adjacent%20hosts.%20For%20this%2C%20Nmap%20supports%20CIDR%2Dstyle%20addressing.%20You%20can%20append%20/%3Cnumbits%3E%20to%20an%20IP%20address%20or%20hostname%20and%20Nmap%20will%20scan%20every%20IP%20address%20for%20which%20the%20first%20%3Cnumbits%3E%20are%20the%20same%20as%20for%20the%20reference%20IP%20or%20hostname%20given.) do nmap, "*sometimes you wish to scan a whole network of adjacent hosts. For this, Nmap supports CIDR-style addressing. You can append /\<numbits\> to an IP address or hostname and Nmap will scan every IP address for which the first \<numbits\> are the same as for the reference IP or hostname given*".
@@ -113,7 +115,7 @@ Ressalta-se que, de acordo com a documentação, a *flag -sn* configura o nmap p
 
 ![alt text](imagens/nmap-net-scan.png)
 
-Quatro IPs foram encontrados na saída comando executado acima: **192.168.56.1**, **192.168.56.100**, **192.168.56.102**, **192.168.56.103**. O primeiro IP de uma rede é sempre reservado para a identificação desta rede e o IP de final 103 é o IP da minha máquina Kali. Logo, os IPs final 100 e 102 serão analisados. 
+Quatro IPs foram encontrados na saída do comando executado acima: **192.168.56.1**, **192.168.56.100**, **192.168.56.102**, **192.168.56.103**. O primeiro IP de uma rede é sempre reservado para a identificação desta rede e o IP de final 103 é o IP da minha máquina Kali. Logo, os IPs final 100 e 102 serão analisados. 
 
 Para análise de ambos IPs será utilizado o comando a seguir. A *flag -sV* configurará o nmap para escanear todas as portas do IP alvo, trará informações dos serviços disponíveis nestas portas e infomações do sistema operacional rodando no IP alvo:
 
@@ -136,15 +138,15 @@ Analisando as duas saídas, concluiu-se que o IP da máquina alvo, Metasploitabl
 
 ## Protocolo FTP
 
-Após o escaneamento e descoberta da máquina alvo, observe que o serviço FTP está disponível e aberto na porta 21. Uma das etapas do desafio será um ataque de força bruta em FTP. Antes da realização do ataque, porém, será feita uma breve descrição deste serviço.
+Após o escaneamento e descoberta da máquina alvo, é possível observar que o serviço FTP está disponível e aberto na porta 21. Uma das etapas do desafio será um ataque de força bruta em FTP. Antes da realização do ataque, porém, será feita uma breve descrição deste serviço.
 
 De acordo com a [documentação](https://www.commandlinux.com/man-page/man1/ftp.1.html#:~:text=Ftp%20is%20the%20user%20interface%20to%20the%20Internet%20standard%20File%20Transfer%20Protocol.%20The%20program%20allows%20a%20user%20to%20transfer%20files%20to%20and%20from%20a%20remote%20network%20site.), o protocolo FTP serve para transferir arquivos entre um cliente e um servidor via internet.
 
 ## *Wordlists*
 
-Para os ataque a serem efetuados, será necessário a utilização de um lista de credenciais comuns. O vazamento de credenciais é uma ocorrência muito comum e estas credenciais alimentam o banco de dados a ser utilizado pos ferramentas como o Medusa.
+Para os ataque a serem efetuados, será necessário a utilização de um lista de credenciais comuns. O vazamento de credenciais é uma ocorrência muito comum. Estas credenciais vazadas alimentam o banco de dados a ser utilizado por ferramentas como o Medusa.
 
-Um dos casos mais importantes de vazamentos de credenciais foi a lista de palavras **RockYou.txt*. Este vazamento ocorreu em 2009 quando a empresa de publicidade e aplicativo social, *RockYou*, sofreu um ataque cibernético que levou à exposição de mais de 32 milhões de senhas de usuários.
+Um dos casos mais emblemáticos de vazamento foi o da lista de palavras **RockYou.txt*. Este vazamento ocorreu em 2009 quando a empresa de publicidade e aplicativo social, *RockYou*, sofreu um ataque cibernético que levou à exposição de mais de 32 milhões de senhas de usuários.
 
 Para este ataque, serão utilizadas duas listas bem simples de usuários e senhas: *user.txt* e *pass.txt*. Estas listas serão criadas com os comandos a seguir:
 
@@ -172,13 +174,13 @@ A seguir, apresenta-se o significado de cada uma das *flags* que acompanham o co
 * *-U*: esta *flag* configura o Medusa para *Reads target usernames from the file specified rather than from the command line. The file should contain a list separated by newlines*;
 * *-P*: esta *flag* faz o mesmo que a anterior, porém relacionado ao arquivo com os *passwords*;
 * *-M*: *Name of the module to execute*, neste caso, o protocolo FTP;
-* *-t*: *Total number of logins to be tested concurrently*, ou seja, a quantidade total de *logins* simultâneos que serão realizados. Dependendo da quantidade de requisições simultâneas forem feitas, este pode se tornar um Ataque de Negação de Serviço, *Denial of Service* (DoS).
+* *-t*: *Total number of logins to be tested concurrently*, ou seja, a quantidade total de *logins* simultâneos a serem realizados. Dependendo da quantidade de requisições simultâneas feitas, este pode se tornar um Ataque de Negação de Serviço, *Denial of Service* (DoS).
 
 O resultado do comando acima foi um par (usuário e senha) de credenciais obtidas: **msfadmin** (usuário) e **msfadmin** (senha):
 
 ![alt text](imagens/ftp-final.png)
 
-Apos serem obtidas, as credenciais foram usadas para acessar o serviço e, já dentro do sistema, tentou-se baixar os arquivos de configuração **passwd** e **shadow**. Estes arquivos ficam armazenados na pasta **etc** da raiz do linux e possuem informações de usuários e *hash* de senhas. Os comando a seguir foram utilizados:
+Apos serem obtidas, as credenciais foram usadas para acessar o serviço e, já dentro do sistema, tentou-se baixar os arquivos de configuração **passwd** e **shadow**. Estes arquivos ficam armazenados na pasta **etc** da raiz do linux e possuem informações de usuários e *hash* de senhas. Os comandos a seguir foram utilizados:
 
 ```bash
 binary
@@ -188,13 +190,13 @@ get /etc/shadow
 
 O arquivo **passwd** foi baixado normalmente, mas o **shadow**, não. O insucesso no *download* do *shadow* possivelmente é devido a restrições de acesso do usuário utilizado.
 
-Como nova estratégia para tentar escalar o acesso, utilizarei o arquivo **passwd** para criar uma nova lista de usuários e usarei uma lista de senhas mais robusta para ver se alcanço algum resultado novo. A seguir, o comando utilizado para isolar apenas os nomes de usuário do arquivo *passwd*:
+Como nova estratégia para tentar escalar o acesso, utilizarei o arquivo **passwd** para criar uma nova lista de usuários e usarei uma lista de senhas mais robusta. A seguir, o comando utilizado para isolar apenas os nomes de usuário do arquivo *passwd*:
 
 ```bash
 cut -d ':' -f 1 passwd > users_new.txt
 ```
 
-Em linhas gerais, o comando acima define o delimitador que irá separar a linha ("-d :"), define o termo que será saldo ("-f 1"), define o arquivo a ser analisado ("*passwd*") e salva o resultado em um arquivo novo (*users_new.txt*). A seguir, apresenta-se a nova tentativa de obtenção de credenciais, mas desta vez, usando os *usernames* obtidos na primeira exploração e usando as senhas do famoso arquivo *rockyou.txt*:
+Em linhas gerais, o comando acima define o delimitador que irá separar a linha ("-d :"), o termo que será saldo ("-f 1"), o arquivo a ser analisado ("*passwd*") e salva o resultado em um arquivo novo (*users_new.txt*). A seguir, apresenta-se a nova tentativa de obtenção de credenciais, mas, desta vez, usando os *usernames* obtidos na primeira exploração e usando as senhas do arquivo *rockyou.txt*:
 
 ```bash
 medusa -h 168.168.56.102 -U users_new.txt -P /usr/share/wordlists/rockyou.txt -M ftp -t 6
