@@ -258,9 +258,34 @@ echo -e "password\n123456\nWelcome123\nmsfadmin" > senhas_spray.txt
 Com estes tópicos cumpridos, podemos realizar o ataque:
 
 ```bash
-medusa -h 192.168.56.102 -U smb_users.txt -P senhas_spray.txt -M smbnt -t 2 -T 50
+medusa -h 192.168.56.102 -U smb_users.txt -P senhas_spray.txt -M smbnt -t 2 -T 1
 ```
 Onde, 
-* *-t 2*
+* *-t 2*: quantidade de *logins* simultâneos; e
+* *-T 1*: esta *flag* é definida como a quantidade de *hosts* que serão atacados simultaneamente. No nosso caso, como temos apenas um IP alvo, o Medusa atacará apenas um por vez, mas em casos onde são fornecidos uma listas de IP alvos, esta *flag* faz mais sentido.
+
+O resultado do ataque acima obteve sucesso para as credenciais **msfadmin** (usuário) e **msfadmin** (senha). Na figura abaixo, apresento um parcela das respostas dos ataques:
+
+![alt text](imagens/smb-resultado.png)
+
+De posse das credenciais, utilizou-se o comando abaixo para listar (*flag -L*) os compartimentos disponíveis:
+
+```bash
+smbclient -L 192.168.56.102 -U msfadmin
+```
+
+Este comando retornará os diretórios disponíveis:
+![alt text](imagens/smbclient-resultado.png)
+
+Para acessar alguma pasta específica, por exemplo a pasta "msfadmin", bastaria usar o seguinte comando e depois inserir a senha:
+
+```bash
+smbclient //192.168.56.102/msfadmin -U msfadmin
+```
+
+E para realizar o *download* de algum arquivo, bastaria usar o comando *get*.
+
 
 # Conclusão
+
+O procedimento acima registrado buscou ser minucioso com o intuito de ser reproduzível para qualquer um que leia e de servir como um resumo pessoal. Além, é claro, de ser a entrega do primeiro desafio do Bootcamp Santander 2025 de Cibersegurança.
