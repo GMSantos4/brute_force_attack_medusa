@@ -172,7 +172,7 @@ A seguir, apresenta-se o significado de cada uma das *flags* que acompanham o co
 * *-U*: esta *flag* configura o Medusa para *Reads target usernames from the file specified rather than from the command line. The file should contain a list separated by newlines*;
 * *-P*: esta *flag* faz o mesmo que a anterior, porém relacionado ao arquivo com os *passwords*;
 * *-M*: *Name of the module to execute*, neste caso, o protocolo FTP;
-* *-t*: *Total number of logins to be tested concurrently*, ou seja, a quantidade total de *logins* simultâneos que serão realizados. Dependendo da quantidade de requisições simultâneas forem feitas, este pode se tornar um Ataque de Negação de Serviço, *Deniel of Service* (DoS).
+* *-t*: *Total number of logins to be tested concurrently*, ou seja, a quantidade total de *logins* simultâneos que serão realizados. Dependendo da quantidade de requisições simultâneas forem feitas, este pode se tornar um Ataque de Negação de Serviço, *Denial of Service* (DoS).
 
 O resultado do comando acima foi um par (usuário e senha) de credenciais obtidas: **msfadmin** (usuário) e **msfadmin** (senha):
 
